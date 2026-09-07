@@ -1,0 +1,39 @@
+{
+  "initial_shape": [
+    17,
+    31,
+    13
+  ],
+  "minimal_shape": [
+    1,
+    1,
+    1
+  ],
+  "seed": 7,
+  "steps": [
+    {
+      "status": "wrong_answer",
+      "trial": [
+        1,
+        31,
+        13
+      ]
+    },
+    {
+      "status": "wrong_answer",
+      "trial": [
+        1,
+        1,
+        13
+      ]
+    },
+    {
+      "status": "wrong_answer",
+      "trial": [
+        1,
+        1,
+        1
+      ]
+    }
+  ]
+}

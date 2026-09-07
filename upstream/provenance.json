@@ -1,0 +1,7 @@
+{
+  "repository": "https://github.com/JDinSeattle/llm-gemm-qualification-lab",
+  "commit": "5f78fc8f94ad85452b496c74b1973c2eaaa33d90",
+  "path": "config/workloads.json",
+  "sha256": "0a3077ab73c7b2c3f98699b312c3420359b7af6b342a83ba594bc52d0736dca8",
+  "adaptation": "CPU float64 operator contract; exact unit shapes plus explicitly downscaled performance shapes; new implementation; injected mutation; no GPU results reused"
+}

@@ -1,0 +1,52 @@
+{
+  "artifact_sha256": {
+    "correctness.jsonl": "4f1bd1c7f67b4f5c404836b761465052b1bfb75db95af3c5984be2e2efdd9ebe",
+    "disassembly.txt": "ed9a0d9500d989cf0b9ce9ce05b3944596bea5685f2c6632a4b49f298b300683",
+    "faults.json": "8b1ee088561b4499996fe35cc43b064498461801b16bc837a2bdd4c97d819901",
+    "minimal_failure.json": "2e44c622ec71d87cd42885275bc711f90b5c4c1b5a58926ad78c518894a06802",
+    "performance.jsonl": "a399e8167b4c5e5820db3bdb7cb9ca7b6060a24634baac81aa9a3694ae4cf1b6",
+    "reduction.json": "9fa605e203c0e04d7fc597d728535cdee396a6966c828b7ba3c881ececcd7318",
+    "summary.json": "951554d84b07d34818aeec9593bb2e2db6301eee89b06a73aaf82f6fb15da93e",
+    "validation.log": "a49047fabaa24e41ecd299381760b8465302206fa76d1fa0a92ef3811cb77e56"
+  },
+  "details": {
+    "binary_sha256": "3438deea4810531221c6043dd7c1a4d8e617519db920698a86bf4ecc17ac39ae",
+    "clock_control": "none; shared host; no GPU execution",
+    "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+    "flags": "-std=c++17 -O3 -Wall -Wextra -Werror; no fast-math",
+    "focused_tests": 9,
+    "measurement_run_utc": "2026-09-07T21:43:34Z",
+    "mutant_sha256": "233c17e27e0ee77580d10df57be8129dfc656f39bfaf801bbaecb1274a59fcee",
+    "timing": "steady_clock microseconds; one warmup; allocations/output excluded; process e2e separately retained"
+  },
+  "environment": {
+    "cpu": "13th Gen Intel(R) Core(TM) i9-13900K",
+    "kernel": "7.0.0-29-generic",
+    "logical_cpus": 32,
+    "machine": "x86_64",
+    "python": "3.14.4 (main, Jun 18 2026, 14:25:02) [GCC 15.2.0]"
+  },
+  "execution": "real local CPU processes; author-operated",
+  "run_utc": "2026-09-07T21:48:19Z",
+  "schema": 1,
+  "source_sha256": {
+    ".github/workflows/ci.yml": "aa23885bb86b72f89a8352f6a688e357ef13e72839f58852c22abf1c2a6f6326",
+    ".gitignore": "f01f7794de7a21670ab309a8171ce8dc857d1696e6c3340bb451006bf83ff171",
+    "LICENSE": "3c4007918aa9889a47e12beb02f2501829853e731e793779205f2b53443345bc",
+    "Makefile": "ade1332900151d5e487130bf0463e2a6d5c30c9cddd3e3c90b91be5256fe7662",
+    "README.md": "f2824810a43f160bd9694ed4eedf343d528035714576edadc476ec6eea934890",
+    "docs/engineering.md": "e9d7ea0f9408765fcd7d8db2b31114a70ba39ab892a1e0e5b5d00f39b51a7e6f",
+    "docs/interview.md": "a1a017fab7a9035ec99d30a3374444b679910387f3e4b0219af4c0cbc04db09c",
+    "docs/results.md": "9a1baedcc09281d239a02b39eb6752610580eb4796b7ec408e2fdfe6e84a2da6",
+    "evidence.py": "b22c6611b15e003bf442aa50322ab4bbd1981ea7be50e61971cbdb3fed368c9b",
+    "qualify.py": "8fde3b90fa72a072b15ecbbea1cdcfd5060673a69b9e52bf848e21b365438a11",
+    "scripts/build.py": "54ee4003949f2acb672cb0186539b30f40ecdbe935e8a2edeb7e9943625ead8e",
+    "scripts/validate.py": "121a7afe6fb24b50d6ac47b2d0d0488d1becf4a555c2d06e4f480b002c1174e5",
+    "src/gemm.cpp": "a08c98ddf9b9e5d45a53bbd4161561fb030fc7333bb7e2b0c0d0e86f4930ab33",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_qualification.py": "edb6418a9f149b3a1b6c7fdca9a4a2f64744d1bf05dc53b0c1e79133b6c14c18",
+    "upstream/LICENSE": "12a724e5eaece012fc7a2aead1ea53256015eca2485a20e0a43a0be776698abf",
+    "upstream/provenance.json": "4ba7f123df3efe334bdee59735c25ed77a614bffda2100a8015909b49c1af4f0",
+    "upstream/workloads.json": "0a3077ab73c7b2c3f98699b312c3420359b7af6b342a83ba594bc52d0736dca8"
+  }
+}

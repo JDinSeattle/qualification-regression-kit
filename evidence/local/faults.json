@@ -1,0 +1,53 @@
+{
+  "abnormal_exit": {
+    "argv": [
+      "/usr/bin/python3",
+      "-c",
+      "raise SystemExit(9)"
+    ],
+    "end_to_end_us": 7218.753,
+    "returncode": 9,
+    "status": "process_failure",
+    "stderr": "",
+    "stdout": ""
+  },
+  "cancel": {
+    "child_reaped": true,
+    "returncode": -15,
+    "status": "cancelled"
+  },
+  "memory_limit": {
+    "argv": [
+      "/usr/bin/python3",
+      "-c",
+      "import resource;resource.setrlimit(resource.RLIMIT_AS,(64*1024**2,64*1024**2));bytearray(128*1024**2)"
+    ],
+    "end_to_end_us": 65205.932,
+    "returncode": 1,
+    "status": "process_failure",
+    "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import resource;resource.setrlimit(resource.RLIMIT_AS,(64*1024**2,64*1024**2));bytearray(128*1024**2)\n                                                                                   ~~~~~~~~~^^^^^^^^^^^^^\nMemoryError\n",
+    "stdout": ""
+  },
+  "missing_result": {
+    "argv": [
+      "/usr/bin/python3",
+      "-c",
+      "print(\"{}\")"
+    ],
+    "end_to_end_us": 8628.106,
+    "kernel_us": [],
+    "returncode": 0,
+    "status": "malformed",
+    "stderr": "",
+    "stdout": "{}\n"
+  },
+  "timeout": {
+    "argv": [
+      "/usr/bin/python3",
+      "-c",
+      "import time;time.sleep(3)"
+    ],
+    "end_to_end_us": 100713.88,
+    "status": "timeout"
+  }
+}

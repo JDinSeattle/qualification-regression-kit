@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "/home/postedism/Desktop/crosscutting-careers/A-qualification-regression-kit/build/gemm-mutant",
+    "optimized",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "generated"
+  ],
+  "end_to_end_us": 1145.808,
+  "kernel_us": [
+    0.112
+  ],
+  "returncode": 0,
+  "status": "wrong_answer",
+  "stderr": "",
+  "stdout": "{\"protocol\":1,\"kernel_us\":[0.112],\"values\":[0]}\n"
+}

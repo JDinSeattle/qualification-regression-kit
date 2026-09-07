@@ -1,0 +1,48 @@
+{
+  "control_and_fixed_pass": 36,
+  "correctness_records": 54,
+  "expected_mutant_failures": 9,
+  "matrix": [
+    [
+      1,
+      1,
+      1
+    ],
+    [
+      17,
+      31,
+      13
+    ],
+    [
+      129,
+      257,
+      65
+    ],
+    [
+      1,
+      256,
+      256
+    ],
+    [
+      32,
+      64,
+      32
+    ],
+    [
+      128,
+      128,
+      128
+    ]
+  ],
+  "performance": {
+    "bootstrap_95pct": [
+      0.34520572557303253,
+      0.4289990985485121
+    ],
+    "candidate_over_control_median": 0.37787240504605335,
+    "decision": "improvement",
+    "practical_threshold": 0.05,
+    "valid_pairs": 20
+  },
+  "seed": 20260907
+}

@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "suite_id": "llm-linear-v1",
+  "description": "Synthetic representative GEMM shapes for transformer linear layers on a 24 GB Ada GPU. These are operator workloads, not end-to-end model benchmarks.",
+  "defaults": {
+    "layout_a": "row_major",
+    "layout_b": "row_major",
+    "layout_c": "row_major",
+    "input_dtypes": ["float16", "bfloat16"],
+    "accumulator_dtype": "float32",
+    "output_dtype": "same_as_input"
+  },
+  "workloads": [
+    {
+      "id": "unit-1x1x1",
+      "family": "unit",
+      "m": 1,
+      "n": 1,
+      "k": 1,
+      "purpose": "Smallest boundary case"
+    },
+    {
+      "id": "unit-odd-17x31x13",
+      "family": "unit",
+      "m": 17,
+      "n": 31,
+      "k": 13,
+      "purpose": "Predication and fragment-tail correctness"
+    },
+    {
+      "id": "unit-cross-tile-129x257x65",
+      "family": "unit",
+      "m": 129,
+      "n": 257,
+      "k": 65,
+      "purpose": "Cross common block and K-tile boundaries"
+    },
+    {
+      "id": "decode-m1-hidden",
+      "family": "decode",
+      "m": 1,
+      "n": 4096,
+      "k": 4096,
+      "purpose": "Single-token hidden projection"
+    },
+    {
+      "id": "decode-m8-hidden",
+      "family": "decode",
+      "m": 8,
+      "n": 4096,
+      "k": 4096,
+      "purpose": "Small continuous-batching hidden projection"
+    },
+    {
+      "id": "decode-m32-hidden",
+      "family": "decode",
+      "m": 32,
+      "n": 4096,
+      "k": 4096,
+      "purpose": "Larger decode batch hidden projection"
+    },
+    {
+      "id": "decode-m8-mlp-up",
+      "family": "decode",
+      "m": 8,
+      "n": 11008,
+      "k": 4096,
+      "purpose": "Small-M MLP expansion projection"
+    },
+    {
+      "id": "decode-m8-mlp-down",
+      "family": "decode",
+      "m": 8,
+      "n": 4096,
+      "k": 11008,
+      "purpose": "Small-M MLP contraction projection"
+    },
+    {
+      "id": "prefill-m128-hidden",
+      "family": "prefill",
+      "m": 128,
+      "n": 4096,
+      "k": 4096,
+      "purpose": "Short prefill hidden projection"
+    },
+    {
+      "id": "prefill-m512-hidden",
+      "family": "prefill",
+      "m": 512,
+      "n": 4096,
+      "k": 4096,
+      "purpose": "Medium prefill hidden projection"
+    },
+    {
+      "id": "prefill-m2048-hidden",
+      "family": "prefill",
+      "m": 2048,
+      "n": 4096,
+      "k": 4096,
+      "purpose": "Compute-heavy prefill hidden projection"
+    },
+    {
+      "id": "prefill-m512-mlp-up",
+      "family": "prefill",
+      "m": 512,
+      "n": 11008,
+      "k": 4096,
+      "purpose": "Compute-heavy MLP expansion projection"
+    },
+    {
+      "id": "prefill-nonaligned",
+      "family": "non_aligned",
+      "m": 509,
+      "n": 4099,
+      "k": 4103,
+      "purpose": "Tail handling without convenient tile multiples"
+    },
+    {
+      "id": "square-512",
+      "family": "historical_square",
+      "m": 512,
+      "n": 512,
+      "k": 512,
+      "purpose": "Historical size sweep"
+    },
+    {
+      "id": "square-1024",
+      "family": "historical_square",
+      "m": 1024,
+      "n": 1024,
+      "k": 1024,
+      "purpose": "Historical size sweep"
+    },
+    {
+      "id": "square-2048",
+      "family": "historical_square",
+      "m": 2048,
+      "n": 2048,
+      "k": 2048,
+      "purpose": "Historical size sweep"
+    },
+    {
+      "id": "square-4096",
+      "family": "historical_square",
+      "m": 4096,
+      "n": 4096,
+      "k": 4096,
+      "purpose": "Historical headline continuity"
+    }
+  ]
+}

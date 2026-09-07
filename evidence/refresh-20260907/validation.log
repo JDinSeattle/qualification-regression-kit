@@ -1,0 +1,67 @@
+python3 -m unittest discover -s tests -v
+test_malformed_scalar_output (test_process_lifecycle.ProcessLifecycleTests.test_malformed_scalar_output) ... ok
+test_protocol_and_numeric_types_fail_closed (test_process_lifecycle.ProcessLifecycleTests.test_protocol_and_numeric_types_fail_closed) ... ok
+test_timeout_terminates_descendant_and_keeps_diagnostic (test_process_lifecycle.ProcessLifecycleTests.test_timeout_terminates_descendant_and_keeps_diagnostic) ... ok
+test_bad_measurements_never_pass (test_qualification.QualificationTests.test_bad_measurements_never_pass) ... ok
+test_duplicate_and_missing_records_reject (test_qualification.QualificationTests.test_duplicate_and_missing_records_reject) ... ok
+test_hand_calculated_oracle (test_qualification.QualificationTests.test_hand_calculated_oracle) ... ok
+test_input_bounds (test_qualification.QualificationTests.test_input_bounds) ... ok
+test_mutant_and_repair (test_qualification.QualificationTests.test_mutant_and_repair) ... ok
+test_supplied_matrix (test_qualification.QualificationTests.test_supplied_matrix) ... ok
+test_timeout_exit_and_missing_binary (test_qualification.QualificationTests.test_timeout_exit_and_missing_binary) ... ok
+test_uncertainty_and_regression (test_qualification.QualificationTests.test_uncertainty_and_regression) ... ok
+test_undefined_behavior_sanitizer_boundaries (test_qualification.QualificationTests.test_undefined_behavior_sanitizer_boundaries) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 2.145s
+
+OK
+python3 scripts/validate.py --out .runs/latest
+{
+  "correctness_records": 54,
+  "expected_mutant_failures": 9,
+  "control_and_fixed_pass": 36,
+  "performance": {
+    "decision": "improvement",
+    "candidate_over_control_median": 0.3205452803701284,
+    "bootstrap_95pct": [
+      0.27390309960861425,
+      0.4124051564429525
+    ],
+    "valid_pairs": 20,
+    "practical_threshold": 0.05
+  },
+  "matrix": [
+    [
+      1,
+      1,
+      1
+    ],
+    [
+      17,
+      31,
+      13
+    ],
+    [
+      129,
+      257,
+      65
+    ],
+    [
+      1,
+      256,
+      256
+    ],
+    [
+      32,
+      64,
+      32
+    ],
+    [
+      128,
+      128,
+      128
+    ]
+  ],
+  "seed": 20260907
+}

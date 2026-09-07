@@ -1,7 +1,9 @@
 """Independent exact oracle, complete result accounting, paired uncertainty gate."""
 import json
 import math
+import os
 import random
+import signal
 import statistics
 import subprocess
 import time
@@ -19,32 +21,44 @@ def oracle(m, n, k, seed):
 def check(payload, expected, repeats):
     try:
         values=payload['values']; times=payload['kernel_us']
-        if payload['protocol']!=1 or len(values)!=len(expected) or len(times)!=repeats:
+        if type(payload['protocol']) is not int or payload['protocol']!=1:
+            return 'malformed'
+        if not isinstance(values,list) or not isinstance(times,list): return 'malformed'
+        if len(values)!=len(expected) or len(times)!=repeats:
             return 'missing_data'
         if any(type(x) not in (int,float) or not math.isfinite(x) for x in values+times):
             return 'nonfinite'
         if any(t<=0 for t in times): return 'invalid_timing'
         if any(x!=y for x,y in zip(values,expected)): return 'wrong_answer'
         return 'pass'
-    except (KeyError,TypeError,ValueError): return 'malformed'
+    except (KeyError,TypeError,ValueError,OverflowError): return 'malformed'
 
 
 def execute(argv, expected, repeats=1, timeout=5):
     start=time.monotonic_ns()
     record={'argv':list(map(str,argv)),'status':'not_run'}
     try:
-        p=subprocess.run(argv,capture_output=True,text=True,timeout=timeout)
-        record.update(returncode=p.returncode,stderr=p.stderr,stdout=p.stdout)
+        p=subprocess.Popen(argv,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,start_new_session=True)
+        try:
+            stdout,stderr=p.communicate(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            # Kill the process group, including descendants retaining our output pipes.
+            try: os.killpg(p.pid,signal.SIGKILL)
+            except ProcessLookupError: pass
+            stdout,stderr=p.communicate(timeout=2)
+            record.update(status='timeout',returncode=p.returncode,stdout=stdout,stderr=stderr,
+                          child_reaped=True,process_group_signalled=True)
+            return record
+        record.update(returncode=p.returncode,stderr=stderr,stdout=stdout,child_reaped=True)
         if p.returncode: record['status']='process_failure'
         else:
             try:
-                payload=json.loads(p.stdout)
+                payload=json.loads(stdout)
                 record['status']=check(payload,expected,repeats)
                 record['kernel_us']=payload.get('kernel_us',[])
             except (ValueError,TypeError,AttributeError): record['status']='malformed'
-    except subprocess.TimeoutExpired: record['status']='timeout'
     except OSError as e: record.update(status='spawn_failure',error=str(e))
-    record['end_to_end_us']=(time.monotonic_ns()-start)/1000
+    finally: record['end_to_end_us']=(time.monotonic_ns()-start)/1000
     return record
 
 

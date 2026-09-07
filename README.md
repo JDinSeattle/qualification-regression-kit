@@ -8,6 +8,12 @@ The candidate truncates K to an 8-element boundary. The control uses an i-j-k lo
 
 The recorded matrix has 54 executions across six shapes, three input seeds and three variants. Nine candidate executions fail as expected; all 36 control/repaired executions pass. A separate 20-pair study retains every timing sample and uses a seeded bootstrap with a 5% practical threshold. An ambiguous comparison returns `uncertain`.
 
+## September 2026 maintenance
+
+The old output gate treated JSON true as integer protocol version 1. The new gate requires exact integer protocol and typed finite measurements. Each worker starts a new process session; a timeout kills its process group, reaps the direct child, and preserves partial stdout/stderr. A real child/grandchild regression checks that the descendant cannot write its delayed marker.
+
+[Design, acceptance tests and limits](docs/refresh-20260907.md) · [Current measured results](docs/refresh-results-20260907.md). CI repeats validation on Python 3.12 and 3.14.7.
+
 ## Reproduce
 
 ```bash

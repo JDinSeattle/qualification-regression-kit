@@ -1,0 +1,10 @@
+{
+  "baseline_commit": "96a955a14a87d8b05c8d2ad8550b52d63bc0d5c5",
+  "observed_before_edit": {
+    "project": "A",
+    "case": "boolean_protocol",
+    "observed": "pass",
+    "expected": "reject"
+  },
+  "reproduction_after_fix": "tests/test_process_lifecycle.py"
+}

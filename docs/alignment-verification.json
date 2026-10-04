@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-04T04:18:23.187986+00:00",
+  "provenance": "Owner-confirmed cloud results remain separate from these local checks.",
+  "notes": [
+    "14 tests passed; 54 matrix executions retain 9 expected mutant wrong answers, 9 positive controls, 36 control/repair passes.",
+    "K/4 mutation; actual matrix deletion with independent worker reruns; 5 warmups and 1000-call samples; paired geometric bootstrap; fixed CPU. New 16-cubed local timing is separate from supplied cloud measurements."
+  ],
+  "checks": [
+    {
+      "command": "make verify evidence-check",
+      "exit_code": 0,
+      "elapsed_seconds": 11.91,
+      "log_sha256": "b9c57bc7d8b86adecadc47c30467d2e2c6cb927f01e24717af873667d05944ff"
+    },
+    {
+      "command": "make verify evidence-check",
+      "exit_code": 0,
+      "elapsed_seconds": 4.47,
+      "log_sha256": "f62e7515772677ef1def322498e52fae62bfd3076b8eca7cb767cecdafd3a11f"
+    },
+    {
+      "command": "make verify",
+      "exit_code": 0,
+      "log_sha256": "de1b114f6e3c3dfe69ed0d858941334a8f05ac5199addf74ef47c2e1c816c9f8"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import math, pathlib, subprocess, sys, unittest
-from qualify import check, compare, execute, oracle, require_complete
+from qualify import check, compare, compare_speedup, execute, minimize, oracle, require_complete
 from scripts.build import build
 
 class QualificationTests(unittest.TestCase):
@@ -26,11 +26,23 @@ class QualificationTests(unittest.TestCase):
         self.assertEqual(compare([(1,.5)])['decision'],'uncertain')
         self.assertEqual(compare([(1,float('nan'))]*20)['decision'],'invalid')
     def test_mutant_and_repair(self):
-        for k in [1,7,8,9,16,17]:
+        for k in [1,4,7,8,9,12,16,17]:
             args=['optimized','3','5',str(k),'1','7','generated']
             self.assertEqual(execute([str(self.binary),*args],oracle(3,5,k,7))['status'],'pass')
             status=execute([str(self.binary)+'-mutant',*args],oracle(3,5,k,7))['status']
-            self.assertEqual(status,'pass' if k%8==0 else 'wrong_answer')
+            self.assertEqual(status,'pass' if k%4==0 else 'wrong_answer')
+    def test_reduction_reexecutes_both_workers_and_keeps_actual_values(self):
+        r=minimize(str(self.binary)+'-mutant',[3,5,7],7)
+        self.assertEqual(r['minimal_shape'],[1,1,1])
+        self.assertEqual((r['a'],r['b'],r['expected']),([[2]],[[3]],[6]))
+        self.assertTrue(all(step['reference_status']=='pass' for step in r['steps']))
+        with self.assertRaisesRegex(ValueError,'not a confirmed'):
+            minimize('/nonexistent/reducer-worker',[3,5,7],7)
+    def test_paired_geomean_keeps_uncertainty(self):
+        result=compare_speedup([(1,1)]*20)
+        self.assertEqual(result['decision'],'uncertain')
+        self.assertEqual(result['geomean_speedup'],1)
+        self.assertEqual(compare_speedup([(1,0)])['decision'],'invalid')
     def test_input_bounds(self):
         for dims in [('0','2','3'),('513','2','3'),('2x','2','3')]:
             p=subprocess.run([self.binary,'optimized',*dims,'1','0','generated'],capture_output=True)

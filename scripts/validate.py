@@ -2,11 +2,13 @@
 import argparse, json, os, pathlib, random, signal, statistics, subprocess, sys, time
 ROOT=pathlib.Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT))
 from evidence import command, digest, fresh, seal, write
-from qualify import compare, execute, minimize, oracle
+from qualify import compare_speedup, execute, minimize, oracle
 from scripts.build import build
 
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--out',default='.runs/latest'); args=ap.parse_args()
+    available=os.sched_getaffinity(0); pinned_cpu=min(available)
+    os.sched_setaffinity(0,{pinned_cpu})
     out=fresh(ROOT,args.out)
     binary=build(); rng=random.Random(20260907)
     workloads=[(1,1,1),(17,31,13),(129,257,65),(1,256,256),(32,64,32),(128,128,128)]
@@ -21,8 +23,8 @@ def main():
             r=execute(argv,expected,3)
             r.update(id=f'{shape}-{seed}-{variant}',shape=shape,seed=seed,variant=variant)
             records.append(r)
-    expected_failures=sum(r['variant']=='candidate' and r['shape'][2]%8!=0 for r in records)
-    assert all(r['status']==('wrong_answer' if r['variant']=='candidate' and r['shape'][2]%8 else 'pass') for r in records)
+    expected_failures=sum(r['variant']=='candidate' and r['shape'][2]%4!=0 for r in records)
+    assert all(r['status']==('wrong_answer' if r['variant']=='candidate' and r['shape'][2]%4 else 'pass') for r in records)
     minimal=execute([str(binary)+'-mutant','optimized','1','1','1','1','0','generated'],oracle(1,1,1,0))
     write(out/'minimal_failure.json',minimal)
     assert minimal['status']=='wrong_answer'
@@ -43,7 +45,7 @@ def main():
     for rep in range(20):
         order=['reference','optimized']; rng.shuffle(order); pair={}
         for mode in order:
-            r=execute([str(binary),mode,'128','128','128','8','7','generated'],oracle(128,128,128,7),8)
+            r=execute([str(binary),mode,'16','16','16','1','7','generated-batched'],oracle(16,16,16,7),1)
             assert r['status']=='pass'; pair[mode]=statistics.median(r['kernel_us'])
             r.update(pair=rep,mode=mode); performance.append(r)
         paired.append((pair['reference'],pair['optimized']))
@@ -52,14 +54,14 @@ def main():
     write(out/'faults.json',faults)
     result={'correctness_records':len(records),'expected_mutant_failures':expected_failures,
             'control_and_fixed_pass':sum(r['status']=='pass' for r in records if r['variant']!='candidate'),
-            'performance':compare(paired),'matrix':workloads,'seed':20260907}
+            'performance':compare_speedup(paired), 'performance_protocol':{'warmups':5,'calls_per_sample':1000,'pairs':20,'shape':[16,16,16],'randomization_seed':20260907},'matrix':workloads,'seed':20260907}
     write(out/'summary.json',result)
     (out/'disassembly.txt').write_text(command(['objdump','-d','-C',str(binary)]))
     seal(ROOT,out,{'compiler':command(['g++','--version']).splitlines()[0],
          'flags':'-std=c++17 -O3 -Wall -Wextra -Werror; no fast-math',
          'binary_sha256':digest(binary),'mutant_sha256':digest(str(binary)+'-mutant'),
-         'timing':'steady_clock microseconds; one warmup; allocations/output excluded; process e2e separately retained',
-         'clock_control':'none; shared host; no GPU execution'})
+         'timing':'steady_clock microseconds per 1000-call sample; five warmups; allocations/output excluded; process e2e separately retained',
+         'clock_control':'shared host, fixed allowed CPU, no frequency control; no GPU execution', 'pinned_cpu':pinned_cpu})
     print(json.dumps(result,indent=2))
 
 if __name__=='__main__': main()
